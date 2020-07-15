@@ -1,6 +1,12 @@
+const Notes = props => props.notes.map(note => <div>{note.text}</div>)
+
 export default () => {
-  return <>
-    <div>Hello</div>
-    <div>Have a banana</div>
-  </>
+
+
+  const notes = [
+    { text: "Do something" }, { text: "Do something else" }
+  ]
+
+  return <Notes notes={notes} />
+
 }
