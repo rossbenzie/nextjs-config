@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import produce from 'immer'
 
 const Notes = props => props.notes.map(note => <div>{note.text}</div>)
 
 export default () => {
   const initialNotes = [
-    { text: "Do something" }, { text: "Do something else" }
+    { text: "Loading notes..." }
   ]
   const [notes, setNotes] = useState(initialNotes)
 
@@ -16,9 +16,19 @@ export default () => {
         interimNotes.push({ text })
       })
       document.getElementById('noteInput').value = ''
+
+      if (typeof 'window' !== 'undefined') localStorage.setItem('notes', JSON.stringify(nextNotes))
       setNotes(nextNotes)
     }
   }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const notes = localStorage.getItem('notes')
+      if (notes) return setNotes(JSON.parse(notes))
+      return setNotes([])
+    }
+  }, 0)
 
   return (
     <>
